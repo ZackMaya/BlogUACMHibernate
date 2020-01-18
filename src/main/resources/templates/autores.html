@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8"/>
+<title>Insert title here</title>
+<link th:href="@{webjars/bootstrap/4.1.0/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #b0f9f7;">
+             <H2>UACM BLOG</H2>
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             
+             <div class="collapse navbar-collapse" align="left" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+               
+                  <li th:if="${session.userLoggenIn}" class="nav-item active">
+                   <form th:action="@{/homeLog}" method="post" enctype="multipart/form-data">
+                     <button class="btn btn-info btn-lg" type="submit">Inicio</button>
+        		    </form>
+                 </li>&nbsp;&nbsp;&nbsp;&nbsp;
+                 <li th:unless="${session.userLoggenIn}" class="nav-item active">
+                   <form th:action="@{/home}" method="post" enctype="multipart/form-data">
+                     <button class="btn btn-info btn-lg" type="submit">Inicio</button>
+        		    </form>
+                 </li>&nbsp;&nbsp;&nbsp;&nbsp;
+                 <li th:if="${session.userLoggenIn}" class="nav-item active">
+                   <form th:action="@{/post}" method="post" enctype="multipart/form-data">
+                     <button class="btn btn-info btn-lg" type="submit">Escribir un post</button>
+        		    </form>
+                 </li>&nbsp;&nbsp;&nbsp;&nbsp;
+                 <li class="nav-item active">
+                   <!--<a class="nav-link" th:href="@{/autores}">Autores <span class="sr-only">(current)</span></a>  -->
+                   <form th:action="@{/autores}" method="post" enctype="multipart/form-data">
+                     <button class="btn btn-info btn-lg" type="submit">Autores</button>
+        		   </form>
+                 </li>&nbsp;&nbsp;&nbsp;&nbsp;
+                 
+                 <li  th:if="${session.userLoggenIn}" class="nav-item active">
+        		   <form th:action="@{/logout}" method="post" enctype="multipart/form-data">
+                     <button class="btn btn-info btn-lg" type="submit">Log out</button>
+        		   </form>
+                 </li>
+                 <li  th:unless="${session.userLoggenIn}" class="nav-item active">
+                   <form th:action="@{/login}" method="post" enctype="multipart/form-data">
+                     <button class="btn btn-info btn-lg" type="submit">Login</button>
+        		   </form>
+                 </li>&nbsp;&nbsp;&nbsp;&nbsp;
+                 
+                 <li>
+                  <div th:if="${session.userLoggenIn}">
+						<h1 th:text="${session.username}"></h1>
+					</div>
+                </li>
+               </ul>
+             </div>
+           </nav>
+           
+           </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          
+      <div>
+			<table th:align="center" class=table-striped>
+				<thead>
+        	    </thead>
+          		 <tbody>
+					<th:block th:each="usuario : ${usuarios}">
+					 
+	          			<tr  class="table-primary">
+	          			
+					      <tr>
+		          			  <th width="300px" scope="row">
+		          			    <img th:src="${usuario.url}" width="50px" height="50px">
+		          			  </th>
+		          			  <td width="300px" th:text="${usuario.nombre}"></td>
+	          			  </tr>
+	          			<tr>
+	          			  <th width="300px" scope="row">Fecha de alta</th>
+	          			  <td width="300px" th:text="${usuario.fecha_registro}"></td>
+	          			</tr>
+	          			<tr>
+	          			  <th width="300px" scope="row">Email</th>
+	          			  <td width="300px" th:text="${usuario.email}"></td>
+	          			 </tr>
+	          			<tr>
+	          			  <th width="300px" scope="row">Ciudad</th>
+	          			 <td width="300px" th:text="${usuario.cuidad}"></td>
+	          			</tr>
+	          			<tr>
+	          			 <th width="300px" scope="row">Post</th>
+	          			 <td width="300px" th:text="${#lists.size(usuario.posts)}"></td>
+	          			</tr>
+	          			<tr>
+	          			 <th width="300px" scope="row">Comentarios</th>
+	          			 <td width="300px" th:text="${#lists.size(usuario.comentarios)}"></td>
+	          			</tr>
+	          			<tr width="300px" height="30px" class="table-dark"></tr>
+	          	    </th:block>
+	          	   
+				 </tbody>
+			</table>
+	   </div>		
+
+<script src="webjars/jquery/3.1.1/jquery.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8"/>
+<title>Insert title here</title>
+<link th:href="@{webjars/bootstrap/4.1.0/css/bootstrap.min.css}" rel="stylesheet"/>
+<script src="webjars/jquery/3.1.1/jquery.min.js"></script>
+<script src="js/jquery-3.1.1.js"></script>
+<script src="js/jquery.dotdotdot.js"></script>	
+</head>
+<body>
+
+<div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #b0f9f7;">
+             <H2>UACM BLOG</H2>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              
+             <div class="collapse navbar-collapse" id= "navbarSupportedContent">
+               <ul class="navbar-nav mr-auto">
+               
+                  <li class="nav-item active">
+                   <form th:action="@{/home}" method="post" enctype="multipart/form-data">
+                     <button class="btn btn-info btn-lg" type="submit">Inicio</button>
+        		    </form>
+                 </li>&nbsp;&nbsp;&nbsp;&nbsp;
+                 <li class="nav-item active">
+                   <!--<a class="nav-link" th:href="@{/autores}">Autores <span class="sr-only">(current)</span></a>  -->
+                   <form th:action="@{/autores}" method="post" enctype="multipart/form-data">
+                     <button class="btn btn-info btn-lg" type="submit">Autores</button>
+        		   </form>
+                 </li>&nbsp;&nbsp;&nbsp;&nbsp;
+                 <li th:if="${session.userLoggenIn}" class="nav-item active">
+                   <form th:action="@{/post}" method="post" enctype="multipart/form-data">
+                     <button class="btn btn-info btn-lg" type="submit">Escribir un post</button>
+        		    </form>
+                 </li>&nbsp;&nbsp;&nbsp;&nbsp;
+                 <li  th:if="${session.userLoggenIn}" class="nav-item active">
+        		   <form th:action="@{/logout}" method="post" enctype="multipart/form-data">
+                     <button class="btn btn-info btn-lg" type="submit">Log out</button>
+        		   </form>
+                 </li>&nbsp;&nbsp;&nbsp;&nbsp;
+                 <li  th:unless="${session.userLoggenIn}" class="nav-item active">
+                   <form th:action="@{/login}" method="post" enctype="multipart/form-data">
+                     <button class="btn btn-info btn-lg" type="submit">Login</button>
+        		   </form>
+                 </li>&nbsp;&nbsp;&nbsp;&nbsp;
+                 
+                 <li>
+                  <div th:if="${session.userLoggenIn}">
+						<h1 th:text="${session.username}"></h1>
+					</div>
+                </li>
+               </ul>
+             </div>
+           </nav>
+           
+            <div th:if="${session.userLoggenIn}" class="jumbotron" th:style="'background:url(' + @{/background-1150510_960_720.jpg} +'); margin-top: 110px;'">
+             <h1 class="display-4" th:align="center">UACM BLOG</h1>
+             <p class="lead" th:align="center">Un Blog sobre Hibernate</p>
+             <hr class="my-4"/>
+             <p th:align="center">Tecnologías, Lenguajes, Tips y más...</p>
+             <p class="lead">
+           </div>
+           
+           <div th:unless="${session.userLoggenIn}" class="jumbotron" th:style="'background:url(' + @{/background-1150510_960_720.jpg} +'); margin-top: 110px;'">
+             <h1 class="display-4" th:align="center">UACM BLOG</h1>
+             <p class="lead" th:align="center">Un Blog sobre Hibernate</p>
+             <hr class="my-4"/>
+             <p th:align="center">Tecnologías, Lenguajes, Tips y más...</p>
+             <p class="lead">
+                 <!-- <a class="btn btn-primary btn-lg"  href="{}" role="button">Registrate</a> --> 
+                 <form th:action="@{/registra}" method="post" enctype="multipart/form-data">
+                     <button class="btn btn-primary btn-lg active" type="submit">Regístrate</button>
+        		 </form>
+           </div>
+           
+           </div>
+           
+           <div>
+			<table th:align="center" class=table-striped>
+				<thead>
+        	    </thead>
+          		 <tbody>
+					<th:block th:each="post : ${posts}">
+	          			<tr  class="table-primary">
+	          			  <th th:width="200px" scope="row">
+	          			    
+	          			  </th>
+	          			  <td th:width="200px" th:text="${post.titulo}"></td>
+	          			  </tr>
+	          			 <tr>
+	          			  <th th:width="200px" scope="row">Contenido</th>
+	          			  <td >
+	          			     <div class="texto">
+								<p th:utext="${post.contenido_post}"></p>...
+								
+							</div>
+							<form th:action="@{/mostrar}" method="post" enctype="multipart/form-data">
+							    <input type="hidden" th:value="${post.id}" id="idpost" name="idpost"/>
+                     			<button class="btn btn-info btn-lg" type="submit">Mostrar Todo el contenido</button>
+        		    		</form>
+	          			  </td>
+	          			 </tr>
+	          			 <tr>
+	          			<tr>
+	          			  <th th:width="200px" scope="row">Fecha de publicación</th>
+	          			  <td th:width="200px" th:text="${post.fecha_post}"></td>
+	          			</tr>
+
+	          			<tr>
+	          			 <th th:width="200px" scope="row">Comentarios</th>
+	          			 <td th:width="200px" th:text="${#lists.size(post.comentarios)}"></td>
+	          			</tr>
+	          			<tr th:width="200px" height="30px" class="table-dark"></tr>
+	          	    </th:block>
+	          	   
+				 </tbody>
+			</table>
+	   </div>
+	   
+          
+<script>
+jQuery(document).ready(function(){
+$('.texto').dotdotdot({
+    height: 25
+});
+});
+</script>		
+</body>
+</html>
